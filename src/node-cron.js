@@ -1,5 +1,6 @@
 'use strict';
 
+const TimeMatcher = require('./time-matcher');
 const ScheduledTask = require('./scheduled-task');
 const BackgroundScheduledTask = require('./background-scheduled-task');
 const validation = require('./pattern-validation');
@@ -52,6 +53,11 @@ function validate(expression) {
     }
 }
 
+function match(pattern, date, timezone) {
+    const timeMatcher = new TimeMatcher(pattern, timezone);
+    return timeMatcher.match(date);
+}
+
 /**
  * Gets the scheduled tasks.
  *
@@ -61,4 +67,4 @@ function getTasks() {
     return storage.getTasks();
 }
 
-module.exports = { schedule, validate, getTasks };
+module.exports = { schedule, validate, getTasks, match };
